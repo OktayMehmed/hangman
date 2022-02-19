@@ -4,8 +4,8 @@ import './styles.css'
 const Header = () => {
   return (
     <>
-      <h1>Hangman</h1>
-      <p>Choose a letter</p>
+      <h1 className='header-title'>Hangman</h1>
+      <p className='header-desc'>Choose a letter</p>
     </>
   )
 }
