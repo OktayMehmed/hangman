@@ -10,7 +10,6 @@ const words = [
   "transcript",
   "grogginess",
   "razzmatazz",
-  "flopping",
   "peekaboo",
   "cockiness"
 ];
@@ -23,8 +22,6 @@ const lastLetter = selectedWord.charAt(selectedWord.length - 1);
 
 alphabet.length = selectedWord.length < 5 ? alphabet.length = 10 : selectedWord.length * 2;
 alphabet = alphabet.filter(letter => letter !== firstLetter && letter !== lastLetter);
-
-console.log(alphabet)
 
 function App() {
   const [correctLetters, setCorrectLetters] = useState([]);
@@ -42,15 +39,19 @@ function App() {
       if (!correctLetters.includes(letters)) {
         setCorrectLetters((correctLetters) => [...correctLetters, letters]);
       }
+    } else {
+      if (!wrongLetters.includes(letters)) {
+        setWrongLetters((wrongLetters) => [...wrongLetters, letters]);
+      }
     }
 
-  }, [correctLetters, letters]);
+  }, [correctLetters, letters, wrongLetters]);
 
   return (
     <>
       <Header />
       <div className="game-container">
-        <Gallow />
+        <Gallow wrongLetters={wrongLetters} />
         <Word selectedWord={selectedWord} correctLetters={correctLetters} />
         <Letters setLetters={setLetters} alphabet={alphabet} />
       </div>
