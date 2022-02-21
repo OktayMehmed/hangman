@@ -1,21 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './styles.css'
 
-const Letters = ({ setLetters, alphabet }) => {
-  const [hideLetter, setHideLetter] = useState([]);
+const Letters = ({ setLetters, alphabet, changeColor }) => {
 
   const handleLetterClick = (e) => {
     const btnValue = e.target.value;
 
     setLetters(btnValue)
-    setHideLetter((hideLetter) => [...hideLetter, btnValue])
   }
 
   return (
     <>
       <div className='letters'>
         {alphabet.map((letter, i) => (
-          <button style={{display: hideLetter.includes(letter) && "none"}} className='chars' key={i} onClick={handleLetterClick} value={letter}>{letter}</button>
+          <button style={{display: changeColor.includes(letter) && "none"}} className='chars' key={i} onClick={handleLetterClick} value={letter}>{letter}</button>
         ))}
       </div>
     </>
