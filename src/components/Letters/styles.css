@@ -1,0 +1,26 @@
+.letters {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 15%;
+  display: flex;
+}
+
+.chars {
+  margin: 3px;
+  display: flex;
+  background: #008af9;
+  border: none;
+  border-radius: 3px;
+  padding: 8px;
+  width: 35px;
+  color: white;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.chars:hover{
+  cursor: pointer;
+  background: #3fa6f9;
+}
