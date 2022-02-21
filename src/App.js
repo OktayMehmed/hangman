@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Gallow from "./components/Gallow";
 import Word from "./components/Word";
 import Letters from "./components/Letters";
+import ProgressBar from "./components/ProgressBar";
 import "./App.css";
 
 const words = [
@@ -51,6 +52,7 @@ function App() {
     <>
       <Header />
       <div className="game-container">
+        <ProgressBar wrongLetters={wrongLetters} />
         <Gallow wrongLetters={wrongLetters} />
         <Word selectedWord={selectedWord} correctLetters={correctLetters} />
         <Letters setLetters={setLetters} alphabet={alphabet} />
