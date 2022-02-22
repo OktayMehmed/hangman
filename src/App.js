@@ -31,10 +31,32 @@ function App() {
   const [letters, setLetters] = useState("");
   const [hideLetter, setHideLetter] = useState([]);
 
-
-
   useEffect(() => {
+    selectedWord = localStorage.getItem("selectedWord") ? localStorage.getItem("selectedWord") : selectedWord
+    firstLetter = selectedWord.split("").shift();
+    lastLetter = selectedWord.split("").pop();
 
+    const savedCorrectLetters = JSON.parse(localStorage.getItem("correctLetters")) ? JSON.parse(localStorage.getItem("correctLetters")) : []
+    const savedWrongLetters = JSON.parse(localStorage.getItem("wrongLetters")) ? JSON.parse(localStorage.getItem("wrongLetters")) : []
+    const savedHideLetters = JSON.parse(localStorage.getItem("hideLetters")) ? JSON.parse(localStorage.getItem("hideLetters")) : []
+
+    savedCorrectLetters.map(letter => {
+      if (!correctLetters.includes(letter)) {
+        setCorrectLetters([...correctLetters, letter])
+      }
+    })
+
+    savedWrongLetters.map(letter => {
+      if (!wrongLetters.includes(letter)) {
+        setWrongLetters([...wrongLetters, letter])
+      }
+    })
+
+    savedHideLetters.map(letter => {
+      if (!hideLetter.includes(letter)) {
+        setHideLetter([...hideLetter, letter])
+      }
+    })
 
     if (!correctLetters.includes(firstLetter) && !correctLetters.includes(lastLetter)) {
       setCorrectLetters([...correctLetters, firstLetter, lastLetter]);
@@ -44,16 +66,18 @@ function App() {
     if (selectedWord.includes(letters)) {
       if (!correctLetters.includes(letters)) {
         setCorrectLetters([...correctLetters, letters]);
-        setHideLetter((currentLetters) => [...currentLetters, letters]);
+        setHideLetter([...hideLetter, letters]);
       }
     } else {
       if (!wrongLetters.includes(letters)) {
-        setWrongLetters((currentLetters) => [...currentLetters, letters]);
-        setHideLetter((currentLetters) => [...currentLetters, letters]);
+        setWrongLetters([...wrongLetters, letters]);
+        setHideLetter([...hideLetter, letters]);
       }
     }
 
   }, [correctLetters, letters, wrongLetters, hideLetter]);
+
+
 
 
   function playAgain() {
@@ -62,12 +86,12 @@ function App() {
     setHideLetter([]);
     setLetters("")
 
-    selectedWord = words[Math.floor(Math.random() * words.length)];
-    firstLetter = selectedWord.split("").shift();
-    lastLetter = selectedWord.split("").pop();
+    localStorage.removeItem("selectedWord");
+    localStorage.removeItem("correctLetters");
+    localStorage.removeItem("wrongLetters");
+    localStorage.removeItem("hideLetters");
 
-    alphabet.length = selectedWord.length < 5 ? alphabet.length = 10 : selectedWord.length * 2;
-    alphabet = alphabet.filter(letter => letter !== firstLetter && letter !== lastLetter);
+    selectedWord = words[Math.floor(Math.random() * words.length)];
   }
 
   return (
@@ -77,7 +101,10 @@ function App() {
         <ProgressBar wrongLetters={wrongLetters} />
         <Gallow wrongLetters={wrongLetters} />
         <Word selectedWord={selectedWord} correctLetters={correctLetters} />
-        <Letters setLetters={setLetters} alphabet={alphabet} hideLetter={hideLetter} />
+        <Letters selectedWord={selectedWord} setLetters={setLetters} alphabet={alphabet}
+          hideLetter={hideLetter}
+          correctLetters={correctLetters}
+          wrongLetters={wrongLetters} />
       </div>
       <Message correctLetters={correctLetters} wrongLetters={wrongLetters}
         selectedWord={selectedWord} playAgain={playAgain} />
