@@ -29,40 +29,43 @@ function App() {
   const [correctLetters, setCorrectLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([])
   const [letters, setLetters] = useState("");
-  const [changeColor, setChangeColor] = useState([]);
+  const [hideLetter, setHideLetter] = useState([]);
 
 
 
   useEffect(() => {
+
+
     if (!correctLetters.includes(firstLetter) && !correctLetters.includes(lastLetter)) {
-      setCorrectLetters((correctLetters) => [...correctLetters, firstLetter, lastLetter]);
-      setChangeColor((changeColor) => [...changeColor, firstLetter, lastLetter]);
+      setCorrectLetters([...correctLetters, firstLetter, lastLetter]);
+      setHideLetter([...hideLetter, firstLetter, lastLetter]);
     }
 
     if (selectedWord.includes(letters)) {
       if (!correctLetters.includes(letters)) {
-        setCorrectLetters((correctLetters) => [...correctLetters, letters]);
-        setChangeColor((changeColor) => [...changeColor, letters]);
+        setCorrectLetters([...correctLetters, letters]);
+        setHideLetter((currentLetters) => [...currentLetters, letters]);
       }
     } else {
       if (!wrongLetters.includes(letters)) {
-        setWrongLetters((wrongLetters) => [...wrongLetters, letters]);
-        setChangeColor((changeColor) => [...changeColor, letters]);
+        setWrongLetters((currentLetters) => [...currentLetters, letters]);
+        setHideLetter((currentLetters) => [...currentLetters, letters]);
       }
     }
 
-  }, [correctLetters, letters, wrongLetters]);
+  }, [correctLetters, letters, wrongLetters, hideLetter]);
+
 
   function playAgain() {
     setCorrectLetters([]);
     setWrongLetters([]);
-    setChangeColor([]);
+    setHideLetter([]);
+    setLetters("")
 
     selectedWord = words[Math.floor(Math.random() * words.length)];
     firstLetter = selectedWord.split("").shift();
     lastLetter = selectedWord.split("").pop();
 
-    alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
     alphabet.length = selectedWord.length < 5 ? alphabet.length = 10 : selectedWord.length * 2;
     alphabet = alphabet.filter(letter => letter !== firstLetter && letter !== lastLetter);
   }
@@ -74,7 +77,7 @@ function App() {
         <ProgressBar wrongLetters={wrongLetters} />
         <Gallow wrongLetters={wrongLetters} />
         <Word selectedWord={selectedWord} correctLetters={correctLetters} />
-        <Letters setLetters={setLetters} alphabet={alphabet} changeColor={changeColor} />
+        <Letters setLetters={setLetters} alphabet={alphabet} hideLetter={hideLetter} />
       </div>
       <Message correctLetters={correctLetters} wrongLetters={wrongLetters}
         selectedWord={selectedWord} playAgain={playAgain} />

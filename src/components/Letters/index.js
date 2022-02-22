@@ -1,7 +1,7 @@
 import React from 'react'
 import './styles.css'
 
-const Letters = ({ setLetters, alphabet, changeColor }) => {
+const Letters = ({ setLetters, alphabet, hideLetter }) => {
 
   const handleLetterClick = (e) => {
     const btnValue = e.target.value;
@@ -13,7 +13,7 @@ const Letters = ({ setLetters, alphabet, changeColor }) => {
     <>
       <div className='letters'>
         {alphabet.map((letter, i) => (
-          <button style={{display: changeColor.includes(letter) && "none"}} className='chars' key={i} onClick={handleLetterClick} value={letter}>{letter}</button>
+          <button style={{display: hideLetter.includes(letter) && "none"}} className='chars' key={i} onClick={handleLetterClick} value={letter}>{letter}</button>
         ))}
       </div>
     </>
